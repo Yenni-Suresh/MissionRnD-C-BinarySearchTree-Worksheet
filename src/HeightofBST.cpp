@@ -53,8 +53,8 @@ int height(struct node *h)
 }
 int get_height(struct node *root){
 
-	if (root==NULL)
-	  return 0;
+	if (root == NULL)
+		return 0;
 	struct node *h = root;
 	return height(h);
 }

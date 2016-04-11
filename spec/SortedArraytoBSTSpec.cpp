@@ -211,6 +211,7 @@ namespace spec
 				
 				}
 			}
+			check = 1;
 			check = check + c2 + c3;
 			Assert::AreEqual(3, check, L"Array to BST Three failed", 1, 2);
 		};

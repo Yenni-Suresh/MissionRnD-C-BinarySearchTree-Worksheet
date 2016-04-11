@@ -32,10 +32,44 @@ struct node{
 	int data;
 	struct node *right;
 };
-
-
-struct node * convert_array_to_bst(int *arr, int len){
-	
-	return NULL;
+struct node * insert(struct node *root, int data)
+{
+	struct node *p = root, *q = NULL, *n;
+	n = (struct node*)malloc(sizeof(struct node));
+	n->data = data;
+	n->left = NULL;
+	n->right = NULL;
+	while (p)
+	{
+		q = p;
+		if (p->data > data)
+			p = p->left;
+		else p = p->right;
+	}
+	if (q == NULL)
+		root = n;
+	else if (q->data > data)
+		q->left = n;
+	else q->right = n;
+	return root;
 }
+struct node * doit(struct node *root, int *arr, int start, int end)
+{
+	int mid = (start + end) / 2;
+	root = insert(root, arr[mid]);
+	if (end > start)
+	{
+		root = doit(root, arr, start, mid - 1);
+		root = doit(root, arr, mid + 1, end);
+	}
+	return root;
 
+}
+struct node * convert_array_to_bst(int *arr, int len)
+{
+	if (arr == NULL || len<1)
+		return NULL;
+	struct node *root = NULL;
+	root = doit(root, arr, 0, len - 1);
+	return root;
+}
