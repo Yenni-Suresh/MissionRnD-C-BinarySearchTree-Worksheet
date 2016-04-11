@@ -28,10 +28,45 @@ struct node{
 	int data;
 	struct node *right;
 };
-
-
-
+void process(struct node *t, int *out, int *index, int *h, int l, int height, struct node *root)
+{
+	if (l > *h || *h == height)
+		return;
+	if (l == *h)
+	{
+		out[*index] = t->data;
+		*index = *index + 1;
+	}
+	if (t->right)
+		process(t->right, out, index, h, l + 1, height, root);
+	if (t->left)
+		process(t->left, out, index, h, l + 1, height, root);
+	if (t == root)
+	{
+		*h = *h + 1;
+		process(root, out, index, h, 0, height, root);
+	}
+}
+int tree_height(struct node *h, int *size)
+{
+	int l = 0, r = 0;
+	if (h->left)
+		l = tree_height(h->left, size);
+	*size = *size + 1;
+	if (h->right)
+		r = tree_height(h->right, size);
+	if (l > r)
+		return l + 1;
+	else return r + 1;
+}
 int* BSTRighttoLeftRows(struct node* root)
 {
-    return NULL;
+	if (root == NULL)
+		return NULL;
+	int size = 0, *out, h = 1, index = 1, height;
+	height = tree_height(root, &size);
+	out = (int*)malloc(size*sizeof(int));
+	out[0] = root->data;
+	process(root, out, &index, &h, 0, height, root);
+	return out;
 }
